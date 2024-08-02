@@ -1,5 +1,5 @@
-const express = require('express')
-const passport = require('passport')
+import express from 'express'
+import passport from 'passport'
 const router = express.Router()
 
 router.get('/google', passport.authenticate('google', {scope: ['profile']}))
@@ -15,4 +15,4 @@ router.get('/logout',(req,res) => {
       })
 } )
 
-module.exports = router
+export default router

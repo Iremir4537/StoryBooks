@@ -1,20 +1,31 @@
-const path = require('path')
-const express = require('express')
-const mongoose = require('mongoose')
-const dotenv = require('dotenv')
-const morgan = require('morgan')
-const exphbs = require('express-handlebars')
-const hbs = exphbs.create()
-const passport = require('passport')
-const session = require('express-session')
-const MongoStore = require('connect-mongo')
-const connectDB = require('./config/db')
+import path from 'path';
+import { fileURLToPath } from 'url';
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import morgan from 'morgan';
+import exphbs from 'express-handlebars';
+import passport from 'passport';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+import connectDB from './config/db.js';
+
+import mainroute from './routes/index.js'
+import authroute from './routes/auth.js'
+import storiesroute from './routes/stories.js'
+
+import configPassport from './config/passport.js'
+
+const hbs = exphbs.create();
+
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
 
 // Load config
 dotenv.config({ path: './config/config.env'})
 
 // Passport config
-require('./config/passport')(passport)
+configPassport(passport)
 
 connectDB()
 
@@ -45,11 +56,12 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 // Static Folder
-app.use(express.static(path.join(__dirname ,'./public')))
+app.use('/public',express.static(path.join(__dirname ,'public')))
 
 //Routes
-app.use('/',require('./routes/index'))
-app.use('/auth',require('./routes/auth'))
+app.use('/',mainroute)
+app.use('/auth',authroute)
+app.use('/stories',storiesroute)
 
 const port = process.env.PORT || 5000
 
