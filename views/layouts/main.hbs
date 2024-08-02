@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/public/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.2/ckeditor5.css" />
     <title>StoryBooks</title>
 </head>
 <body>
@@ -16,34 +17,34 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script type="importmap">
-            {
-                "imports": {
-                    "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.2/ckeditor5.js",
-                    "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.2/"
-                }
+        {
+            "imports": {
+                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.2/ckeditor5.js",
+                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.2/"
             }
+        }
     </script>
-    <script src="/public/js/main.js"></script>
-    <script>
-        import ck from 'ckeditor5';
+    <script type="module">
+      	import {
+            ClassicEditor,
+            Essentials,
+            Paragraph,
+            Bold,
+            Italic
+        } from 'ckeditor5';
 
-        M.Sidenav.init(document.querySelector('.sidenav'))
-        M.FormSelect.init(document.querySelector('#status'))
-
-        ck.ClassicEditor
-            .create( document.querySelector( '#body' ), {
-                plugins: [ ck.Essentials, ck.Paragraph, ck.Bold, ck.Italic, ck.Font ],
-                toolbar: [
-                    'undo', 'redo', '|', 'bold', 'italic', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
-                ]
-            } )
-            .then( editor => {
-                window.editor = editor;
+        ClassicEditor
+            .create( document.querySelector( '#editor' ), {
+                plugins: [ Essentials, Paragraph, Bold, Italic ],
+                toolbar: [ 'bold', 'italic' ]
             } )
             .catch( error => {
                 console.error( error );
             } );
+    </script>
+    <script>
+        M.Sidenav.init(document.querySelector('.sidenav'))
+        M.FormSelect.init(document.querySelector('#status'))
     </script>
 </body>
 </html>
